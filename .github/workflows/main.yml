@@ -1,0 +1,27 @@
+name: ARA Build and Test Pipeline
+
+# Trigger the pipeline on every push to the main branch [cite: 9, 12]
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code from the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Build the Docker Image 
+    - name: Build Docker Image
+      run: docker build -t my-web-app .
+
+    # Step 3: Run the container to verify it works (Simulated Deployment) [cite: 11]
+    - name: Run Container
+      run: docker run -d -p 8080:80 --name running-app my-web-app
+
+    # Step 4: Verify the application is running
+    - name: Verify Deployment
+      run: curl http://localhost:8080
